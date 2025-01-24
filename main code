@@ -1,0 +1,135 @@
+// a5-Garrison Gibson.txt -- Assignment 5
+// 4/24/2022
+// Garrison Gibson, CISP 400
+#include <iostream>
+
+#include <cstdlib>
+
+using namespace std;
+
+//function prototypes
+char menuOptions(char & option);
+char optionValidation(char & option);
+int randomNumberGenF(int & randomNumber);
+int randomNumberGenP(int & randomNumber);
+int passTime(int & boredom, int & hunger);
+//Specification C2
+class hokeemon {
+  public:
+    string name;
+  int hungerLevel;
+  int boredom;
+};
+
+int main() {
+  int isDone = 0;
+  char option = 0;
+  int randomNumber = 0;
+  int boredom = 0;
+  int hunger = 0;
+  hokeemon myPet;
+  myPet.hungerLevel = (1 + (rand() % 5));
+  myPet.boredom = (1 + (rand() % 5));
+  cout << "Welcome to the game Hokeemon where you maintain and have fun with your pet" << endl;
+  //Specification A1 below
+  cout << "What do you want to name your pet?" << endl;
+  cin >> myPet.name;
+  cout << "Your pet's name is " << myPet.name << endl;
+  while (isDone == 0) {
+    if (myPet.boredom > 20) {
+      cout << "Your pet is bored and has become unresponsive" << endl;
+      cout << "Game over" << endl;
+      break;
+    }
+    if (myPet.hungerLevel <= 0) {
+      cout << "Your pet's hunger is at 0 and it died from starvation" << endl;
+      cout << "Game over" << endl;
+      break;
+    }
+
+    menuOptions(option);
+    optionValidation(option);
+    if (option == 'L') {
+      cout << myPet.name << ": My hunger level is at " << myPet.hungerLevel << endl;
+      cout << myPet.name << ": My boredom level is at " << myPet.boredom << endl;
+      boredom = myPet.boredom;
+      hunger = myPet.hungerLevel;
+      passTime(boredom, hunger);
+      myPet.hungerLevel = hunger;
+      myPet.boredom = boredom;
+      if (0 > myPet.hungerLevel) {
+        myPet.hungerLevel = 0;
+      }
+      if (0 > myPet.boredom) {
+        myPet.boredom = 0;
+
+      }
+      cout << "  -- " << endl;
+      cout << "  -- " << endl;
+    } else if (option == 'P') {
+
+      cout << "You played with your pet" << endl;
+      myPet.boredom = myPet.boredom - randomNumberGenP(randomNumber);
+      if (0 > myPet.boredom) {
+        myPet.boredom = 0;
+      }
+      boredom = myPet.boredom;
+      hunger = myPet.hungerLevel;
+      passTime(boredom, hunger);
+      cout << " -- " << endl;
+      cout << " -- " << endl;
+    } else if (option == 'F') {
+      cout << "You fed your pet" << endl;
+      myPet.hungerLevel = myPet.hungerLevel + randomNumberGenF(randomNumber);
+      boredom = myPet.boredom;
+      hunger = myPet.hungerLevel;
+      passTime(boredom, hunger);
+      cout << " -- " << endl;
+      cout << " -- " << endl;
+    } else if (option == 'Q') {
+      cout << "Bye, thanks for playing!" << endl;
+      isDone = 1;
+    }
+
+  }
+}
+//function below displays menu options
+char menuOptions(char & option) {
+  //Specification C3 below
+  cout << "What option number did you want to choose?" << endl;
+  cout << "Option L: Listen" << endl;
+  cout << "Option P: Play" << endl;
+  cout << "Option F: Feed" << endl;
+  cout << "Option Q: Quit" << endl;
+  return option;
+}
+//function takes and validates user input
+char optionValidation(char & option) {
+  while (!(cin >> option) || (option != 'L' && option != 'P' && option != 'F' && option != 'Q')) {
+    cout << "Invalid! Please try again." << endl;
+    cin.clear();
+    cin.ignore(123, '\n');
+  }
+  return option;
+}
+//function below finds a random number between 4 and 8
+int randomNumberGenP(int & randomNumber) {
+  randomNumber = 0;
+  randomNumber = (4 + (rand() % 8));
+  return randomNumber;
+
+}
+//function below grabs a random number between 3 and 6
+int randomNumberGenF(int & randomNumber) {
+  randomNumber = 0;
+  randomNumber = (3 + (rand() % 6));
+  return randomNumber;
+
+}
+//Specification C1 below
+int passTime(int & boredom, int & hunger) {
+  hunger = hunger - 1;
+  boredom = boredom + 1;
+  return boredom;
+  return hunger;
+};
